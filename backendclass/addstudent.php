@@ -1,4 +1,7 @@
-<?php require('config.php'); ?>
+<?php 
+require('config.php');
+require('secure_user.php');
+?>
 <!doctype html>
 <html lang="en">
   <head>

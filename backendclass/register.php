@@ -1,6 +1,6 @@
 <?php 
-require('config.php'); 
-session_start();
+require('config.php');
+session_start(); 
 // include('config.php'); 
 //You can use both require or include.
 ?>
@@ -17,37 +17,47 @@ session_start();
   </head>
   <body>
       <div class="container">
+        
         <?php 
         if(isset($_SESSION['id']))
         {
           echo header('Location: dashboard.php?msg=already_loggedin');
         }
+
         if(isset($_POST['submit']))
         {
+          $name = $_POST['name'];
           $email = $_POST['email'];
           $password = md5($_POST['password']);
+          $confirm_password = md5($_POST['confirm_password']);
 
-          $login_query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-          $login_result = mysqli_query($conn,$login_query);
-          $count = mysqli_num_rows($login_result);
-          if($count==1)
+          if($password==$confirm_password)
           {
-            $row = mysqli_fetch_assoc($login_result);
-            session_start();
-            $_SESSION['id'] = $row['id'];
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['email'] = $row['email'];
-
-            echo header('Location: dashboard.php?msg=login_success');
+            $signup_query = "INSERT INTO users (name, email, password) VALUES('$name','$email','$password')";
+            $signup_result = mysqli_query($conn,$signup_query);
+            if($signup_result)
+            {
+              echo header('Location: index.php?msg=register_success');
+            }
+            else 
+            {
+              echo "Register Failed.";
+            }
           }
           else 
           {
-            echo "Login Failed.";
+            echo "Both Password Doesn't Match.";
           }
         }
         ?>
-      <h1>Login</h1>
+      <h1>Register</h1>
         <form action="#" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="">Name</label>
+              <input type="name"
+                class="form-control" name="name" id="" aria-describedby="helpId" placeholder="">
+              <small id="helpId" class="form-text text-muted">Help text</small>
+            </div>    
             <div class="form-group">
               <label for="">Email</label>
               <input type="email"
@@ -60,9 +70,15 @@ session_start();
                 class="form-control" name="password" id="" aria-describedby="helpId" placeholder="">
               <small id="helpId" class="form-text text-muted">Help text</small>
             </div>
+            <div class="form-group">
+              <label for="">Confirm Password</label>
+              <input type="password"
+                class="form-control" name="confirm_password" id="" aria-describedby="helpId" placeholder="">
+              <small id="helpId" class="form-text text-muted">Help text</small>
+            </div>
             <button type="submit" name="submit"  class="btn btn-primary">Login</button>
         </form>
-        Not Have an account yet, <a href="register.php">Register Now.</a>
+        Already Have an account, <a href="login.php">Login Now.</a>
       </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

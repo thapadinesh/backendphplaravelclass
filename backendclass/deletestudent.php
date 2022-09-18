@@ -1,5 +1,6 @@
 <?php 
 require('config.php');
+require('secure_user.php');
 if(isset($_GET['id']))
 {
     $id = $_GET['id'];
