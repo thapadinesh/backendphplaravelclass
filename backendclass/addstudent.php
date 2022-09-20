@@ -24,16 +24,24 @@ require('secure_user.php');
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $class = $_POST['class'];
-        
-        $insert_query = "INSERT INTO students (name, address, email, phone, class) VALUES('$name','$address','$email','$phone',$class)";
-        $insert_result = mysqli_query($conn,$insert_query);
-        if($insert_result)
+        $user_id = $_SESSION['id'];
+
+        if($name!="" && $address!="" && $email!="" && $phone!="" && $class!="")
         {
-            echo header('Location: index.php?msg=asuccess');
+          $insert_query = "INSERT INTO students (name, address, email, phone, class,user_id) VALUES('$name','$address','$email','$phone',$class,$user_id)";
+          $insert_result = mysqli_query($conn,$insert_query);
+          if($insert_result)
+          {
+              echo header('Location: index.php?msg=asuccess');
+          }
+          else 
+          {
+              echo "Student Record can not be added successfully.";
+          }
         }
         else 
         {
-            echo "Student Record can not be added successfully.";
+          echo "All fields are necessary !";
         }
     }
     ?>

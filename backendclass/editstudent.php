@@ -36,15 +36,22 @@ if(isset($_GET['id']))
         $phone = $_POST['phone'];
         $class = $_POST['class'];
         
-        $update_query = "UPDATE students SET name='$name', address='$address', email='$email', phone='$phone', class='$class' WHERE id=$id";
-        $update_result = mysqli_query($conn,$update_query);
-        if($update_result)
+        if($name!="" && $address!="" && $email!="" && $phone!="" && $class!="")
         {
-            echo header('Location: index.php?msg=usuccess');
+          $update_query = "UPDATE students SET name='$name', address='$address', email='$email', phone='$phone', class='$class' WHERE id=$id";
+          $update_result = mysqli_query($conn,$update_query);
+          if($update_result)
+          {
+              echo header('Location: index.php?msg=usuccess');
+          }
+          else 
+          {
+              echo "Student Record can not be updated successfully.";
+          }
         }
         else 
         {
-            echo "Student Record can not be updated successfully.";
+          echo "All fields are necessary !";
         }
     }
     ?>

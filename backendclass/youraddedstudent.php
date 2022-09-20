@@ -15,10 +15,9 @@ require('secure_user.php');
   </head>
   <body>
       <div class="container">
-        <a name="" id="" class="btn btn-primary mt-2" href="addstudent.php" role="button">Add Student</a>
-        <a name="" id="" class="btn btn-primary mt-2" href="youraddedstudent.php" role="button">Your Added Students</a>
+        <a name="" id="" class="btn btn-primary mt-2" href="index.php" role="button">Manage Student</a>
         <a name="" id="" class="btn btn-secondary float-right mt-2" href="logout.php" role="button">Logout</a>
-      <h1>Students Records</h1>
+      <h1>Your Added Students Records</h1>
       <p><b>Logged in as <?php echo $_SESSION['name']; ?></b></p>
       <?php 
       if(isset($_GET['msg']))
@@ -90,7 +89,8 @@ require('secure_user.php');
         </thead>
         <tbody>
             <?php
-            $select_query = "SELECT * FROM students";
+            $user_id = $_SESSION['id'];
+            $select_query = "SELECT * FROM students WHERE user_id=$user_id";
             $select_result = mysqli_query($conn,$select_query);
             $i = 0;
             while($data_row = mysqli_fetch_array($select_result))
